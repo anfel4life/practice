@@ -2,25 +2,24 @@ package com.company;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.net.URLDecoder;
 
 
-class ArrayFromFile {
+abstract class ArrayFromFileUtil {
     private static String INPUT_FILE_NAME = "inputArray.txt";
 
-    String readText() {
+    static String readText() {
         StringBuilder s = new StringBuilder();
-        String testFilePath = "";
+        String filePath = "";
         try {
-            testFilePath = URLDecoder.decode(getClass().getResource("/").getPath(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
+            filePath = URLDecoder.decode(new File(".").getCanonicalPath() + File.separator + "resources"
+                    + File.separator + INPUT_FILE_NAME, "UTF-8");
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        File myFile = new File(testFilePath + File.separator + INPUT_FILE_NAME);
-
+        File myFile = new File(filePath);
         if (myFile.exists() && myFile.isFile()) {
 
             Scanner in = null;
@@ -40,7 +39,7 @@ class ArrayFromFile {
         return s.toString();
     }
 
-    ArrayList<Integer> strToArray(String txt) {
+    static ArrayList<Integer> strToArray(String txt) {
         ArrayList<Integer> resultList = new ArrayList<Integer>();
         String[] strArray;
 

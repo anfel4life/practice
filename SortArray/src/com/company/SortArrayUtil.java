@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 
 
-class SortArray {
+class SortArrayUtil {
     String sortArray(ArrayList<Integer> sortedList) {
         if (sortedList != null && !sortedList.isEmpty()) {
             Integer bigger;

@@ -4,10 +4,9 @@ package com.company;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-public class WriteInFile {
+public class WriteInFileUtil {
     private static String OUTPUT_FILE_NAME = "outputArray.txt";
 
     String writeStrInFile(String text) {
@@ -15,12 +14,12 @@ public class WriteInFile {
         String filePath = "";
 
         try {
-            filePath = URLDecoder.decode(getClass().getResource("/").getPath(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
+            filePath = URLDecoder.decode(new File(".").getCanonicalPath() + File.separator + OUTPUT_FILE_NAME, "UTF-8");
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        File file = new File(filePath + OUTPUT_FILE_NAME);
+        File file = new File(filePath);
 
         try {
             if (!file.exists()) {

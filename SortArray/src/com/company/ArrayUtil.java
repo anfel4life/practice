@@ -4,17 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class Main {
+abstract public class ArrayUtil {
 
     public static void main(String[] args) {
 
-        String stringFromFile = new ArrayFromFile().readText();
+        String stringFromFile = ArrayFromFileUtil.readText();
 
-        if (stringFromFile != null && !stringFromFile.isEmpty()) {
+        if (!stringFromFile.isEmpty()) {
 
             System.out.println("Here's an array from \"inputArray.txt\":");
             System.out.println(stringFromFile);
-
             System.out.println("\nIf you want to sort this array, press <Enter> please...");
             try {
                 System.in.read();
@@ -23,14 +22,14 @@ public class Main {
                 //e.printStackTrace();
             }
 
-            ArrayList<Integer> arraylist = new ArrayFromFile().strToArray(stringFromFile);
-            String sortedArrayString = new SortArray().sortArray(arraylist);
+            ArrayList<Integer> arraylist = ArrayFromFileUtil.strToArray(stringFromFile);
+            String sortedArrayString = new SortArrayUtil().sortArray(arraylist);
 
             if (sortedArrayString != null && !sortedArrayString.isEmpty()) {
                 System.out.println("Sorted array: ");
                 System.out.println(sortedArrayString);
                 System.out.println();
-                System.out.println(new WriteInFile().writeStrInFile(sortedArrayString));
+                System.out.println(new WriteInFileUtil().writeStrInFile(sortedArrayString));
             } else {
                 System.out.println("There isn't values in array to be sorted");
             }
