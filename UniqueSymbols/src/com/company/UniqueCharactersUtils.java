@@ -4,19 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-abstract public class UniqueCharactersUtils {
+abstract public class UniqueCharactersApp {
 
     public static void main(String[] args) {
-
         BufferedReader br = null;
         boolean isContinue = true;
 
         try {
-
             br = new BufferedReader(new InputStreamReader(System.in));
 
             while (isContinue) {
-
                 System.out.print("Enter string and press <Enter> to get the number of unique characters " +
                         "\nor enter \"q\" and press <Enter> to exit: ");
                 System.out.println();
