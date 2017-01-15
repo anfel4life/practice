@@ -4,6 +4,7 @@ package com.company;
 import java.util.HashMap;
 
 class StringHolderSingl {
+    //private static Map<String, String> HASHED_RESULTS_MAP;
     private static HashMap<String, String> HASHED_RESULTS_MAP;
 
     private static StringHolderSingl instance;
