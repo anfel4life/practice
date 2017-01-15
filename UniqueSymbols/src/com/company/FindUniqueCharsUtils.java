@@ -4,11 +4,8 @@ package com.company;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
 abstract class FindUniqueCharsUtils {
-
     private static ArrayList<Character> getUniqueCharsList(String str) {
-
         ArrayList<Character> uniqueCharsList = new ArrayList<Character>();
 
         char[] charArr = str.toCharArray();
@@ -36,16 +33,13 @@ abstract class FindUniqueCharsUtils {
     }
 
     static String getResultMessage(String str) {
-
-        String resultMessage;
-        resultMessage = StringHolderSingl.getInstance().getUniqueCharsForString(str);
-        if (resultMessage == null) {
-            int i;
+        String resultMessage = StringHolderSingl.getInstance().getUniqueCharsForString(str);
+        if (resultMessage == null) {          
             StringBuilder resultStr = new StringBuilder();
             StringBuilder chars = new StringBuilder();
             ArrayList<Character> uniqueCharList = getUniqueCharsList(str);
 
-            i = 0;
+            int i = 0;
             if (uniqueCharList != null && !uniqueCharList.isEmpty()) {
                 int lastElem = uniqueCharList.size() - 1;
                 for (char ch : uniqueCharList) {
