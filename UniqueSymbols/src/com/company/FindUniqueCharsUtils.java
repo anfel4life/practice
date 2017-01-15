@@ -37,15 +37,14 @@ abstract class FindUniqueCharsUtils {
 
     static String getResultMessage(String str) {
 
-        String resultMessage;
-        resultMessage = StringHolderSingl.getInstance().getUniqueCharsForString(str);
+        String resultMessage = StringHolderSingl.getInstance().getUniqueCharsForString(str);
         if (resultMessage == null) {
-            int i;
+
             StringBuilder resultStr = new StringBuilder();
             StringBuilder chars = new StringBuilder();
             ArrayList<Character> uniqueCharList = getUniqueCharsList(str);
 
-            i = 0;
+            int i = 0;
             if (uniqueCharList != null && !uniqueCharList.isEmpty()) {
                 int lastElem = uniqueCharList.size() - 1;
                 for (char ch : uniqueCharList) {

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-abstract public class ArrayUtil {
+public class ArraySorter {
 
     public static void main(String[] args) {
 

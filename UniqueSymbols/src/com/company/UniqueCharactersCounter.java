@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-abstract public class UniqueCharactersUtils {
+public class UniqueCharactersCounter {
 
     public static void main(String[] args) {
 

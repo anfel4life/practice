@@ -2,9 +2,10 @@ package com.company;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 class StringHolderSingl {
-    private static HashMap<String, String> HASHED_RESULTS_MAP;
+    private static Map<String, String> HASHED_RESULTS_MAP;
 
     private static StringHolderSingl instance;
 
@@ -24,7 +25,7 @@ class StringHolderSingl {
 
     String getUniqueCharsForString(String str) {
         if (HASHED_RESULTS_MAP != null && !HASHED_RESULTS_MAP.isEmpty()) {
-            return HASHED_RESULTS_MAP.containsKey(str) ? HASHED_RESULTS_MAP.get(str) : null;
+            return HASHED_RESULTS_MAP.get(str);
         }
         return null;
     }
