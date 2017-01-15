@@ -4,13 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Main {
+abstract public class UniqueCharactersUtils {
 
     public static void main(String[] args) {
 
         BufferedReader br = null;
         boolean isContinue = true;
-
 
         try {
 
@@ -26,17 +25,16 @@ public class Main {
 
                 if ("q".equals(input)) {
                     isContinue = false;
-                } else if ("".equals(input)){
-                    System.out.println(">You didn't pased any characters");
+                } else if ("".equals(input)) {
+                    System.out.println(">You didn't pass the string");
                     System.out.println("-----------");
                 } else {
                     long start = System.currentTimeMillis();
-
                     System.out.println(">" + FindUniqueCharsUtils.getResultMessage(input));
                     //System.out.println("input string: " + input);
                     long finish = System.currentTimeMillis();
                     long timeConsumedMillis = finish - start;
-                    System.out.println("time: " + timeConsumedMillis);
+                    System.out.println("Execution time: " + timeConsumedMillis);
                     System.out.println("-----------\n");
                 }
             }

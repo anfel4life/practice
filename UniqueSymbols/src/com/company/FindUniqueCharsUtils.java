@@ -13,20 +13,20 @@ abstract class FindUniqueCharsUtils {
 
         char[] charArr = str.toCharArray();
         Arrays.sort(charArr);
-       // System.out.println(charArr);
+        // System.out.println(charArr);
         if (charArr.length == 1) {
             uniqueCharsList.add(charArr[0]);
         } else {
-            for (int i = 0; i < charArr.length; i++){
+            for (int i = 0; i < charArr.length; i++) {
                 boolean isUniqueChar;
                 //compare char[i] with the next elem of sorted array if it isn't the last elem in array
                 isUniqueChar = i > charArr.length - 2;
                 isUniqueChar = isUniqueChar || (charArr[i] != charArr[i + 1]);
 
-                if (isUniqueChar){
-                    //compare char[i] with the next elem of sorted array if it isn't first elem in array
+                if (isUniqueChar) {
+                    //compare char[i] with the next elem of sorted array if it isn't the first elem in array
                     isUniqueChar = i == 0 || (charArr[i] != charArr[i - 1]);
-                    if (isUniqueChar){
+                    if (isUniqueChar) {
                         uniqueCharsList.add(charArr[i]);
                     }
                 }
@@ -35,15 +35,11 @@ abstract class FindUniqueCharsUtils {
         return uniqueCharsList;
     }
 
-    static String getResultMessage(String str){
+    static String getResultMessage(String str) {
 
         String resultMessage;
-        if (ResutsHolderUtils.getUniqueCharsForString(str) != null) {
-        //if (StringHolderSingl.getInstance().getUniqueCharsForString(str) != null) {
-            System.out.println(">This string has been already counted.");
-            resultMessage = ResutsHolderUtils.getUniqueCharsForString(str);
-
-        } else {
+        resultMessage = StringHolderSingl.getInstance().getUniqueCharsForString(str);
+        if (resultMessage == null) {
             int i;
             StringBuilder resultStr = new StringBuilder();
             StringBuilder chars = new StringBuilder();
@@ -74,8 +70,9 @@ abstract class FindUniqueCharsUtils {
             }
 
             resultMessage = resultStr.append(chars).toString();
-            ResutsHolderUtils.addString(str, resultMessage);
-            //StringHolderSingl.getInstance().addString(str, resultMessage);
+            StringHolderSingl.getInstance().addString(str, resultMessage);
+        } else {
+             System.out.println(">This string has been already counted.");
         }
 
         return resultMessage;
