@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.UserInterface.CommandParserUtils;
+import com.company.UserInterface.CommandParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,8 +31,7 @@ public class StaffStructureConstructor {
                     System.out.println("You didn't enter any commands");
                     System.out.println("-----------");
                 } else {
-
-                    System.out.println(CommandParserUtils.usersCommandProcessing(input));
+                    System.out.println(new CommandParser().usersCommandProcessing(input));
                     System.out.println("-----------");
                 }
             }

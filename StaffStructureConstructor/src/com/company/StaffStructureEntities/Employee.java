@@ -1,29 +1,38 @@
 package com.company.StaffStructureEntities;
 
 
-import com.company.Services.UniqueIDGeneratorImpl;
-import com.company.Services.UniqueIdGenerator;
+import com.company.Services.UniqueIDGenerator;
 
-public class Employee {
+public class Employee extends Node {
 
     protected long employeeId;
     protected short employeeAge;
     protected String employeeType;
     protected String employeeName;
-
-    protected UniqueIdGenerator uniqueGenerator;
+    protected String nodeName;
+    protected long nodeId;
 
     public Employee() {
-        uniqueGenerator = new UniqueIDGeneratorImpl();
     }
-
 
     public long getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId() {
-        this.employeeId = uniqueGenerator.getNewId();
+    protected void setEmployeeId() {
+        employeeId = UniqueIDGenerator.getInstance().getNewEmployeeId();
+        setNodeName(String.valueOf(employeeId));
+
+    }
+
+    @Override
+    public void setNodeId() {
+        nodeId = UniqueIDGenerator.getInstance().getNewNodeId();
+    }
+
+    @Override
+    public long getNodeId() {
+        return nodeId;
     }
 
     public String getEmployeeType() {
@@ -47,7 +56,30 @@ public class Employee {
     }
 
     public void setEmployeeName(String employeeName) {
+        setEmployeeId();
         this.employeeName = employeeName;
     }
 
+    @Override
+    public void setNodeType(String nodeType) {
+    }
+
+    @Override
+    public void setNodeName(String nodeName) {
+        this.nodeName = nodeName;
+    }
+
+    @Override
+    public String getNodeType() {
+        return EMPLOYEE_NODE_TYPE;
+    }
+
+    @Override
+    public String getNodeName() {
+        return nodeName;
+    }
+
+    public String[] getNodeCommands() {
+        return super.getNodeCommands(getNodeType());
+    }
 }

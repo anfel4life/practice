@@ -4,72 +4,76 @@ package com.company.Services;
 import com.company.DataHolder.DataHolderSingleton;
 import com.company.StaffStructureEntities.Department;
 import com.company.StaffStructureEntities.Employee;
+import com.company.UserInterface.VisitedNodesStack;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+
 
 public class DepartmentServiceImpl implements DepartmentService {
 
-    //private Department department;
-    //private HashSet employeeSet;
-    private DataHolderSingleton dataHolder;
 
-    public DepartmentServiceImpl() {
-        dataHolder = DataHolderSingleton.getInstance();
-    }
-
-    public DepartmentServiceImpl(Department department) {
+    @Override
+    public String openEmployeeInfo(long employeeId) {
+        return "";
     }
 
     @Override
-    public void createDepartment(String newDepartmentName) {
-        Department department = new Department();
-        department.setDepartmentName(newDepartmentName);
-        HashSet employeeSet = new HashSet<Employee>();
-        dataHolder.addNewStaffStructureUnit(department, employeeSet);
-        //return DataHolderSingleton.getStaffStructureMap();
+    public String updateEmployeeInfo(long employeeId, String newEmployeeName, byte newEmployeeAge, String newEmployeeType, String newEmployeeSkill) {
+        return "";
     }
 
     @Override
-    public void removeDepartment(String departmentName) {
-        Department departmentForRemoving = new Department();
-        HashMap<Department, HashSet<Employee>> staffStructureMap = dataHolder.getStaffStructureMap();
+    public String createEmployee(String newEmployeeName, byte newEmployeeAge, String newEmployeeType, String newEmployeeSkill) {
+        return "";
+    }
 
-        removeLbl:
-        if (staffStructureMap != null && !staffStructureMap.isEmpty()) {
-            for (Map.Entry<Department, HashSet<Employee>> entry : staffStructureMap.entrySet()) {
-                Department department = entry.getKey();
-                if (department.getDepartmentName().equals(departmentName)) {
-                    departmentForRemoving = entry.getKey();
-                    break removeLbl;
-                }
+    @Override
+    public String createEmployee(String newEmployeeName) {
+
+        String emplList = "sorry...";
+
+        Employee newEmployee = new Employee();
+        newEmployee.setEmployeeName(newEmployeeName);
+
+        long parentNodeId = VisitedNodesStack.getInstance().peekLast().getNodeId();
+        for (Department department : DataHolderSingleton.getInstance().getStaffStructureSet()){
+            if (department.getNodeId() == parentNodeId){
+                department.addEmployee(newEmployee);
+                DataHolderSingleton.getInstance().addDepartment(department);
+                emplList = getEmployeesList(department.getEmployeeSet());
             }
         }
 
-        if (departmentForRemoving != null) {
-            dataHolder.deleteDepartmentFromStaffStructureMap(departmentForRemoving);
-        }
+        return emplList;
     }
 
-    @Override
-    public HashSet<Employee> openDepartment(String departmentName) {
-        //ArrayList<String> employeeList = new ArrayList<String>();
-        HashSet<Employee> employeeSet = new HashSet<Employee>();
-        HashMap<Department, HashSet<Employee>> staffStructureMap = dataHolder.getStaffStructureMap();
-        if (staffStructureMap != null && !staffStructureMap.isEmpty()) {
-            for (Map.Entry<Department, HashSet<Employee>> entry : staffStructureMap.entrySet()) {
-                Department department = entry.getKey();
-                if (department.getDepartmentName().equals(departmentName)) {
-                    employeeSet = entry.getValue();
-                }
+    //code dublicate
+    private String getEmployeesList(HashSet<Employee> employeeSet) {
+        StringBuilder list = new StringBuilder();
+        if (employeeSet != null && !employeeSet.isEmpty()) {
+            for (Employee employee : employeeSet) {
+
+                list.append(employee.getEmployeeName())
+                        .append(" (id:")
+                        .append(employee.getEmployeeId())
+                        .append(")")
+                        .append("\n");
             }
+        } else {
+            list.append("There aren't any employees in this department yet");
         }
-        return employeeSet;
+        return list.toString();
+    }
+
+
+    @Override
+    public String removeEmployee(long employeeId) {
+        return "";
     }
 
     @Override
-    public String departmentCommandList()   {
-        return null;
+    public String showDepartments() {
+        return "";
     }
+
 }

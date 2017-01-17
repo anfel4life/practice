@@ -1,18 +1,18 @@
 package com.company.Services;
 
 
-import com.company.StaffStructureEntities.Employee;
-
-import java.util.HashMap;
-import java.util.HashSet;
-
 public interface DepartmentService {
 
-    void createDepartment(String newDepartmentName);
+    String openEmployeeInfo(long employeeId);
 
-    void removeDepartment(String departmentName);
+    String updateEmployeeInfo(long employeeId, String newEmployeeName, byte newEmployeeAge, String newEmployeeType, String newEmployeeSkill);
 
-    HashSet<Employee> openDepartment(String departmentName);
+    String createEmployee(String newEmployeeName, byte newEmployeeAge, String newEmployeeType, String newEmployeeSkill);
 
-    String departmentCommandList();
+    String createEmployee(String newEmployeeName);
+
+    String removeEmployee(long employeeId);
+
+    String showDepartments();
+
 }

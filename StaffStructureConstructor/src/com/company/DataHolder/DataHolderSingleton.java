@@ -1,54 +1,71 @@
 package com.company.DataHolder;
 
 
+import com.company.Services.UniqueIDGenerator;
 import com.company.StaffStructureEntities.Department;
-import com.company.StaffStructureEntities.Employee;
+import com.company.StaffStructureEntities.Node;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
-public class DataHolderSingleton {
+public class DataHolderSingleton extends Node {
 
     private static long lastEmployeeId;
     private static DataHolderSingleton instance;
-
-    private static HashMap<Department, HashSet<Employee>> STAFF_STRUCTURE_MAP;
+    private static HashSet<Department> STAFF_STRUCTURE_SET;
 
     private DataHolderSingleton() {
-        STAFF_STRUCTURE_MAP = new HashMap<Department, HashSet<Employee>>();
+        STAFF_STRUCTURE_SET = new HashSet<Department>();
         lastEmployeeId = 0L;
     }
 
     public static DataHolderSingleton getInstance() {
         if (instance == null) {
-            instance =  new DataHolderSingleton();
+            instance = new DataHolderSingleton();
         }
         return instance;
     }
 
-//    public static long getLastEmployeeId() {
-//        return lastEmployeeId;
-//    }
 
-    public long incrementLastEmployeeId(){
+    @Override
+    public void setNodeId() {
+    }
+
+    @Override
+    public long getNodeId() {
+        return 0L;
+    }
+
+    public long incrementLastEmployeeId() {
         return ++lastEmployeeId;
     }
 
-//    public static void setLastEmployeeId(long lastEmployeeId) {
-//        DataHolderSingleton.lastEmployeeId = lastEmployeeId;
-//    }
-
-    public void deleteDepartmentFromStaffStructureMap(Department department) {
-        STAFF_STRUCTURE_MAP.remove(department);
+    public void removeDepartment(Department department) {
+        STAFF_STRUCTURE_SET.remove(department);
     }
 
-    public HashMap<Department, HashSet<Employee>> getStaffStructureMap() {
-        return STAFF_STRUCTURE_MAP;
+    public HashSet<Department> getStaffStructureSet() {
+        return STAFF_STRUCTURE_SET;
     }
 
-    public void addNewStaffStructureUnit(Department department, HashSet<Employee> employeeSet) {
-        STAFF_STRUCTURE_MAP.put(department, employeeSet);
+    public void addDepartment(Department department) {
+        STAFF_STRUCTURE_SET.add(department);
+    }
+
+    @Override
+    public void setNodeType(String nodeType) {
+    }
+
+    @Override
+    public void setNodeName(String nodeName) {
+    }
+
+    @Override
+    public String getNodeType() {
+        return ROOT_NODE_TYPE;
+    }
+
+    @Override
+    public String getNodeName() {
+        return "root";
     }
 }
