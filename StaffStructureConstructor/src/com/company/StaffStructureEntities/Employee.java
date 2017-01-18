@@ -7,7 +7,7 @@ public class Employee extends Node {
 
     protected long employeeId;
     protected short employeeAge;
-    protected String employeeType;
+//    protected String employeeType;
     protected String employeeName;
     protected String nodeName;
     protected long nodeId;
@@ -36,12 +36,11 @@ public class Employee extends Node {
     }
 
     public String getEmployeeType() {
-        return employeeType;
+        return null;
     }
 
-    public void setEmployeeType(String employeeType) {
-        this.employeeType = employeeType;
-    }
+//    public void setEmployeeType(String employeeType) {
+//    }
 
     public short getEmployeeAge() {
         return employeeAge;

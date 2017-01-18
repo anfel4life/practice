@@ -7,9 +7,7 @@ public interface DepartmentService {
 
     String updateEmployeeInfo(long employeeId, String newEmployeeName, byte newEmployeeAge, String newEmployeeType, String newEmployeeSkill);
 
-    String createEmployee(String newEmployeeName, byte newEmployeeAge, String newEmployeeType, String newEmployeeSkill);
-
-    String createEmployee(String newEmployeeName);
+    String createEmployee(String employeeName, String employeeType, short employeeAge, String employeeSkill);
 
     String removeEmployee(long employeeId);
 

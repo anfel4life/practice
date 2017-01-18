@@ -22,7 +22,7 @@ public class CommandParser {
                 break;
 
             case "rm":
-                resultMessage = (commandsArr.length >= 1) ? removeStaffUnit(commandsArr) : INCORRECT_INPUT;
+                resultMessage = (commandsArr.length >= 1) ? removeStaffUnitParse(commandsArr) : INCORRECT_INPUT;
                 break;
 
             case "open":
@@ -34,12 +34,12 @@ public class CommandParser {
                 break;
 
             case "departments":
-//                System.out.println(">>>CPU: switch departmensList()");
+//                System.out.println(">>>CPU: switch departmentsList()");
                 resultMessage = departmentsList();
                 break;
 
             case "update":
-                resultMessage = (commandsArr.length >= 1) ? updateStaffUnit(commandsArr) : INCORRECT_INPUT;
+                resultMessage = (commandsArr.length >= 1) ? updateStaffUnitParse(commandsArr) : INCORRECT_INPUT;
                 break;
 
             default:
@@ -64,7 +64,7 @@ public class CommandParser {
 
             case "-e":
                 //"create -e";
-                resultMessage = (commandsArr.length >= 3) ? createEmployee(commandsArr[2]) : INCORRECT_INPUT;
+                resultMessage = (commandsArr.length >= 3) ? createEmployeeParse(commandsArr) : INCORRECT_INPUT;
                 break;
 
             default:
@@ -74,10 +74,10 @@ public class CommandParser {
     }
 
     //update -e
-    private String updateStaffUnit(String[] commandsArr) {
+    private String updateStaffUnitParse(String[] commandsArr) {
         String resultMessage = INCORRECT_INPUT;
         if (commandsArr[1].toLowerCase().equals("-e")) {
-            resultMessage = (commandsArr.length >= 3) ? updateEmployee(commandsArr[2]) : INCORRECT_INPUT;
+            resultMessage = (commandsArr.length >= 3) ? updateEmployeeParse(commandsArr) : INCORRECT_INPUT;
         }
         return resultMessage;
     }
@@ -102,7 +102,7 @@ public class CommandParser {
     }
 
     //rm -d | rm -e
-    private String removeStaffUnit(String[] commandsArr) {
+    private String removeStaffUnitParse(String[] commandsArr) {
         String resultMessage = INCORRECT_INPUT;
 
         if (commandsArr.length >= 3) {
@@ -120,6 +120,89 @@ public class CommandParser {
         return resultMessage;
     }
 
+    private String createEmployeeParse(String [] commandsArr){
+        long id = 0L;
+        String name = "";
+        String type = "";
+        short age = 0;
+        String language = "";
+        String methodology = "";
+        String skill;
+
+        for (int i = 0; i < commandsArr.length; i++ ){
+            if (commandsArr[i].equals("-e")){
+                try {
+                    id = Long.valueOf(commandsArr[i + 1]);
+                } catch (NumberFormatException e) {
+                    id = 0L;
+                }
+            } else if (commandsArr[i].equals("-n") && i <= commandsArr.length){
+                name = commandsArr[i + 1];
+            } else if (commandsArr[i].equals("-t") && i <= commandsArr.length){
+                type = commandsArr[i + 1];
+            } else if (commandsArr[i].equals("-a") && i <= commandsArr.length){
+                try {
+                    age = Short.valueOf(commandsArr[i + 1]);
+                } catch (NumberFormatException e) {
+                    age = 0;
+                }
+            } else if (commandsArr[i].equals("-l")  && i <= commandsArr.length){
+                language= commandsArr[i + 1];
+            } else if (commandsArr[i].equals("-m") && i <= commandsArr.length){
+                methodology = commandsArr[i + 1];
+            }
+        }
+        skill = getSkill(type, language,  methodology);
+//        System.out.println("name: " + name + "; type: " + type + "; age:" + age + "; skill: " + skill);
+        return createEmployee(name, type, age, skill);
+    }
+
+
+    private String updateEmployeeParse(String [] commandsArr){
+        long id = 0;
+        String name = "";
+        String type = "";
+        short age = 0;
+        String language = "";
+        String methodology = "";
+        String skill;
+
+        for (int i = 0; i < commandsArr.length; i++ ){
+            if (commandsArr[i].equals("-n") && i <= commandsArr.length){
+                name = commandsArr[i + 1];
+            } else if (commandsArr[i].equals("-t") && i <= commandsArr.length){
+                type = commandsArr[i + 1];
+            } else if (commandsArr[i].equals("-a") && i <= commandsArr.length){
+                try {
+                    age = Short.valueOf(commandsArr[i + 1]);
+                } catch (NumberFormatException e) {
+                    age = 0;
+                }
+            } else if (commandsArr[i].equals("-l")  && i <= commandsArr.length){
+                language= commandsArr[i + 1];
+            } else if (commandsArr[i].equals("-m") && i <= commandsArr.length){
+                methodology = commandsArr[i + 1];
+            }
+        }
+        skill = getSkill(type, language,  methodology);
+
+        return updateEmployee(id, name, type, age, skill);
+    }
+
+    private String getSkill(String type, String language, String methodology) {
+        String skill;
+        switch (type){
+            case "d":
+                skill = language;
+                break;
+            case "m":
+                skill = methodology;
+                break;
+            default:
+                skill = "";
+        }
+        return  skill;
+    }
 
     private String openDepartment(String departmentName) {
         return comControl.openDepartment(departmentName);
@@ -141,16 +224,16 @@ public class CommandParser {
         return "rm employee " + employeeId;
     }
 
-    private String updateEmployee(String employeeId) {
-        return "update employee " + employeeId;
+    private String updateEmployee(long id, String employeeName, String employeeType, short employeeAge, String employeeSkill) {
+        return comControl.updateEmployee(id, employeeName, employeeType, employeeAge, employeeSkill);
     }
 
-    private String createEmployee(String employeeName) {
-        return comControl.addEmployee(employeeName);
+    private String createEmployee(String employeeName, String employeeType, short employeeAge, String employeeSkill) {
+        return comControl.addEmployee(employeeName, employeeType, employeeAge, employeeSkill);
     }
 
     private String departmentsList() {
-        return comControl.departmensList();
+        return comControl.departmentsList();
     }
 
     private String help() {

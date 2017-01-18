@@ -1,7 +1,9 @@
 package com.company.Services;
 
 
-public class EmployeeServiceImpl {
+import com.company.StaffStructureEntities.Employee;
+
+public class EmployeeServiceImpl implements EmployeeService {
 
     public void updateEmployee(String employeeId) {
 

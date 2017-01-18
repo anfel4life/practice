@@ -1,10 +1,7 @@
 package com.company.UserInterface;
 
 
-import com.company.Services.DepartmentService;
-import com.company.Services.DepartmentServiceImpl;
-import com.company.Services.RootService;
-import com.company.Services.RootServiceImpl;
+import com.company.Services.*;
 
 public class CommandController {
 
@@ -17,7 +14,7 @@ public class CommandController {
 //        currentNode = VisitedNodesStack.getInstance().peek();
         rootService = new RootServiceImpl();
         departmentService = new DepartmentServiceImpl();
-        employeeService = new EmployeeService();
+        employeeService = new EmployeeServiceImpl();
     }
 
     public String createNewDepartment(String departmentName) {
@@ -34,14 +31,17 @@ public class CommandController {
         return rootService.getDepartmentsList();
     }
 
-    public String departmensList() {
+    public String departmentsList() {
         return rootService.getDepartmentsList();
     }
 
-    public String addEmployee(String newEmployeeName){
-        return departmentService.createEmployee(newEmployeeName);
+    public String addEmployee(String employeeName, String employeeType, short employeeAge, String employeeSkill){
+        return departmentService.createEmployee(employeeName, employeeType, employeeAge, employeeSkill);
     }
 
+    public String updateEmployee(long id, String employeeName, String employeeType, short employeeAge, String employeeSkill){
+        return departmentService.createEmployee(employeeName, employeeType, employeeAge, employeeSkill);
+    }
 
     public String commandsList() {
         StringBuilder strings = new StringBuilder();

@@ -3,10 +3,10 @@ package com.company.Services;
 
 import com.company.DataHolder.DataHolderSingleton;
 import com.company.StaffStructureEntities.Department;
+import com.company.StaffStructureEntities.Developer;
 import com.company.StaffStructureEntities.Employee;
+import com.company.StaffStructureEntities.Manager;
 import com.company.UserInterface.VisitedNodesStack;
-
-import java.util.HashSet;
 
 
 public class DepartmentServiceImpl implements DepartmentService {
@@ -22,47 +22,37 @@ public class DepartmentServiceImpl implements DepartmentService {
         return "";
     }
 
-    @Override
-    public String createEmployee(String newEmployeeName, byte newEmployeeAge, String newEmployeeType, String newEmployeeSkill) {
-        return "";
-    }
 
     @Override
-    public String createEmployee(String newEmployeeName) {
+    public String createEmployee(String employeeName, String employeeType, short employeeAge, String employeeSkill) {
 
         String emplList = "sorry...";
 
-        Employee newEmployee = new Employee();
-        newEmployee.setEmployeeName(newEmployeeName);
+        Employee newEmployee;
+
+        switch (employeeType) {
+            case "m":
+                newEmployee = new Manager();
+                break;
+            case "d":
+                newEmployee = new Developer();
+                break;
+            default:
+                return "Wrong employee type.";
+        }
+
+        newEmployee.setEmployeeName(employeeName);
+        newEmployee.setEmployeeAge(employeeAge);
 
         long parentNodeId = VisitedNodesStack.getInstance().peekLast().getNodeId();
         for (Department department : DataHolderSingleton.getInstance().getStaffStructureSet()){
             if (department.getNodeId() == parentNodeId){
                 department.addEmployee(newEmployee);
                 DataHolderSingleton.getInstance().addDepartment(department);
-                emplList = getEmployeesList(department.getEmployeeSet());
+                emplList = StringConstructor.getEmployeesList(department);
             }
         }
-
         return emplList;
-    }
-
-    //code dublicate
-    private String getEmployeesList(HashSet<Employee> employeeSet) {
-        StringBuilder list = new StringBuilder();
-        if (employeeSet != null && !employeeSet.isEmpty()) {
-            for (Employee employee : employeeSet) {
-
-                list.append(employee.getEmployeeName())
-                        .append(" (id:")
-                        .append(employee.getEmployeeId())
-                        .append(")")
-                        .append("\n");
-            }
-        } else {
-            list.append("There aren't any employees in this department yet");
-        }
-        return list.toString();
     }
 
 

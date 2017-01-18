@@ -67,11 +67,11 @@ public class RootServiceImpl implements RootService {
                 if (department.getDepartmentName().equals(departmentName)) {
                     //there is department with such name!
                     isDepartment = true;
-                    HashSet<Employee> employeeSet = department.getEmployeeSet();
+//                    HashSet<Employee> employeeSet = department.getEmployeeSet();
                     VisitedNodesStack.getInstance().setNode(department);
 //                    System.out.println("RootService openDepartment nodeType: " + department.getNodeType());
                     result = "Employees list of " + departmentName + " department:\n\n";
-                    result += getEmployeesList(employeeSet);
+                    result += StringConstructor.getEmployeesList(department);
                     break lbl;
                 }
             }
@@ -81,21 +81,4 @@ public class RootServiceImpl implements RootService {
         return result;
     }
 
-    private String getEmployeesList(HashSet<Employee> employeeSet) {
-        StringBuilder list = new StringBuilder();
-        if (employeeSet != null && !employeeSet.isEmpty()) {
-            for (Employee employee : employeeSet) {
-
-                list.append(employee.getEmployeeName())
-                        .append(" (id:")
-                        .append(employee.getEmployeeId())
-                        .append(")")
-                        .append("\n");
-            }
-        } else {
-            list.append("There aren't any employees in this department yet");
-        }
-        return list.toString();
-
-    }
 }

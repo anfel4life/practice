@@ -11,4 +11,8 @@ public class Developer extends Employee {
     public void setLanguage(String language) {
         this.language = language;
     }
+
+    public String getEmployeeType() {
+        return "Developer";
+    }
 }
