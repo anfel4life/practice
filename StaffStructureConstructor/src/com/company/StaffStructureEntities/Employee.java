@@ -3,6 +3,8 @@ package com.company.StaffStructureEntities;
 
 import com.company.Services.UniqueIDGenerator;
 
+import java.util.ArrayList;
+
 public class Employee extends Node {
 
     protected long employeeId;
@@ -11,19 +13,27 @@ public class Employee extends Node {
     protected String employeeName;
     protected String nodeName;
     protected long nodeId;
+    protected String employeeSkill;
 
     public Employee() {
+        setEmployeeId();
     }
 
     public long getEmployeeId() {
         return employeeId;
     }
 
+
     protected void setEmployeeId() {
         employeeId = UniqueIDGenerator.getInstance().getNewEmployeeId();
         setNodeName(String.valueOf(employeeId));
-
     }
+
+    public void setEmployeeId(long employeeId) {
+        this.employeeId = employeeId;
+        setNodeName(String.valueOf(employeeId));
+    }
+
 
     @Override
     public void setNodeId() {
@@ -42,6 +52,14 @@ public class Employee extends Node {
 //    public void setEmployeeType(String employeeType) {
 //    }
 
+    public void setEmployeeSkill(String employeeSkill){
+       this.employeeSkill = employeeSkill;
+    }
+
+    public String getEmployeeSkill(){
+        return employeeSkill;
+    }
+
     public short getEmployeeAge() {
         return employeeAge;
     }
@@ -55,7 +73,7 @@ public class Employee extends Node {
     }
 
     public void setEmployeeName(String employeeName) {
-        setEmployeeId();
+//        setEmployeeId();
         this.employeeName = employeeName;
     }
 
@@ -78,7 +96,7 @@ public class Employee extends Node {
         return nodeName;
     }
 
-    public String[] getNodeCommands() {
+    public ArrayList<String> getNodeCommands() {
         return super.getNodeCommands(getNodeType());
     }
 }

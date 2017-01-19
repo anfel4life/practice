@@ -1,8 +1,5 @@
-package com.company.UserInterface;
+package com.company.StaffStructureEntities;
 
-
-import com.company.DataHolder.DataHolderSingleton;
-import com.company.StaffStructureEntities.Node;
 
 import java.util.LinkedList;
 
@@ -12,7 +9,7 @@ public class VisitedNodesStack {
 
     private VisitedNodesStack() {
         NODES_STACK = new LinkedList<Node>();
-        NODES_STACK.add(DataHolderSingleton.getInstance());
+        NODES_STACK.add(RootNode.getInstance());
     }
 
     public static VisitedNodesStack getInstance() {
@@ -28,10 +25,11 @@ public class VisitedNodesStack {
 
     public void clear() {
         NODES_STACK.clear();
-        NODES_STACK.add(DataHolderSingleton.getInstance());
+        NODES_STACK.add(RootNode.getInstance());
     }
 
     public Node peekLast() {
         return NODES_STACK.peekLast();
     }
+
 }

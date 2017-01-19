@@ -1,26 +1,22 @@
-package com.company.DataHolder;
+package com.company.StaffStructureEntities;
 
-
-import com.company.Services.UniqueIDGenerator;
-import com.company.StaffStructureEntities.Department;
-import com.company.StaffStructureEntities.Node;
 
 import java.util.HashSet;
 
-public class DataHolderSingleton extends Node {
+public class RootNode extends Node {
 
-    private static long lastEmployeeId;
-    private static DataHolderSingleton instance;
+//    private static long lastEmployeeId;
+    private static RootNode instance;
     private static HashSet<Department> STAFF_STRUCTURE_SET;
 
-    private DataHolderSingleton() {
+    private RootNode() {
         STAFF_STRUCTURE_SET = new HashSet<Department>();
-        lastEmployeeId = 0L;
+//        lastEmployeeId = 0L;
     }
 
-    public static DataHolderSingleton getInstance() {
+    public static RootNode getInstance() {
         if (instance == null) {
-            instance = new DataHolderSingleton();
+            instance = new RootNode();
         }
         return instance;
     }
@@ -35,9 +31,9 @@ public class DataHolderSingleton extends Node {
         return 0L;
     }
 
-    public long incrementLastEmployeeId() {
-        return ++lastEmployeeId;
-    }
+//    public long incrementLastEmployeeId() {
+//        return ++lastEmployeeId;
+//    }
 
     public void removeDepartment(Department department) {
         STAFF_STRUCTURE_SET.remove(department);

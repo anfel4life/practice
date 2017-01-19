@@ -1,20 +1,9 @@
 package com.company.Services;
 
 
-import com.company.StaffStructureEntities.Employee;
-
 public class EmployeeServiceImpl implements EmployeeService {
 
-    public void updateEmployee(String employeeId) {
-
-    }
-
-    public String employeeInfo(String employeeId) {
+    public String updateEmployee(long employeeId, String employeeName, short employeeAge, String employeeSkill) {
         return "";
     }
-
-    public String getCommandList() {
-        return "";
-    }
-
 }

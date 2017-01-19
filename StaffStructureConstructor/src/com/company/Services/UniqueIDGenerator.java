@@ -29,4 +29,8 @@ public class UniqueIDGenerator {
         return uniqueEmployeeId ;
     }
 
+    public long getCurrentEmployeeId() {
+        return uniqueEmployeeId ;
+    }
+
 }

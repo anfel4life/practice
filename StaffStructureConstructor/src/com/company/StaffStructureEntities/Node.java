@@ -3,6 +3,9 @@ package com.company.StaffStructureEntities;
 
 import com.company.UserInterface.CommandHolder;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public abstract class Node {
 
     public static String ROOT_NODE_TYPE = "root";
@@ -26,7 +29,7 @@ public abstract class Node {
 
     public abstract String getNodeName();
 
-    public String[] getNodeCommands(String nodeType) {
+    public ArrayList<String> getNodeCommands(String nodeType) {
         return commandHolder.getCommands(nodeType);
     }
 }

@@ -30,12 +30,11 @@ public class CommandParser {
                 break;
 
             case "help":
-                resultMessage = help();
+                resultMessage = comControl.commandsList();
                 break;
 
             case "departments":
-//                System.out.println(">>>CPU: switch departmentsList()");
-                resultMessage = departmentsList();
+                resultMessage = comControl.departmentsList();
                 break;
 
             case "update":
@@ -59,7 +58,7 @@ public class CommandParser {
         switch (commandsArr[1].toLowerCase()) {
             case "-d":
                 //"create -d";
-                resultMessage = (commandsArr.length >= 3) ? createDepartment(commandsArr[2]) : INCORRECT_INPUT;
+                resultMessage = (commandsArr.length >= 3) ? comControl.createNewDepartment(commandsArr[2]) : INCORRECT_INPUT;
                 break;
 
             case "-e":
@@ -89,10 +88,10 @@ public class CommandParser {
         if (commandsArr.length >= 3) {
             switch (commandsArr[1].toLowerCase()) {
                 case "-d":
-                    resultMessage = openDepartment(commandsArr[2]);
+                    resultMessage = comControl.openDepartment(commandsArr[2]);
                     break;
                 case "-e":
-                    resultMessage = openEmployee(commandsArr[2]);
+                    resultMessage = comControl.openEmployee(commandsArr[2]);
                     break;
                 default:
                     resultMessage = INCORRECT_INPUT;
@@ -108,10 +107,10 @@ public class CommandParser {
         if (commandsArr.length >= 3) {
             switch (commandsArr[1].toLowerCase()) {
                 case "-d":
-                    resultMessage = removeDepartment(commandsArr[2]);
+                    resultMessage = comControl.removeDepartment(commandsArr[2]);
                     break;
                 case "-e":
-                    resultMessage = removeEmployee(commandsArr[2]);
+                    resultMessage = comControl.removeEmployee(commandsArr[2]);
                     break;
                 default:
                     resultMessage = INCORRECT_INPUT;
@@ -120,6 +119,7 @@ public class CommandParser {
         return resultMessage;
     }
 
+    //create -e -n employee_name -t m|d -a short -m|-l Java|Canban
     private String createEmployeeParse(String [] commandsArr){
         long id = 0L;
         String name = "";
@@ -152,41 +152,45 @@ public class CommandParser {
                 methodology = commandsArr[i + 1];
             }
         }
+
+        if (type.equals("d") && !methodology.isEmpty()){
+            return INCORRECT_INPUT;
+        } else if (type.equals("m") && !language.isEmpty()){
+            return INCORRECT_INPUT;
+        }
+
         skill = getSkill(type, language,  methodology);
 //        System.out.println("name: " + name + "; type: " + type + "; age:" + age + "; skill: " + skill);
-        return createEmployee(name, type, age, skill);
+        return comControl.addEmployee(name, type, age, skill);
     }
 
-
+    //update -e employee_id -n employee_name -a short -m|-l Java|Canban
     private String updateEmployeeParse(String [] commandsArr){
-        long id = 0;
+        long id = 0L;
         String name = "";
-        String type = "";
         short age = 0;
-        String language = "";
-        String methodology = "";
-        String skill;
+        String skill = "";
 
         for (int i = 0; i < commandsArr.length; i++ ){
-            if (commandsArr[i].equals("-n") && i <= commandsArr.length){
+            if (commandsArr[i].equals("-e") && i <= commandsArr.length) {
+                try {
+                    id = Long.valueOf(commandsArr[i + 1]);
+                } catch (NumberFormatException e) {
+                    id = 0L;
+                }
+            } else if (commandsArr[i].equals("-n") && i <= commandsArr.length){
                 name = commandsArr[i + 1];
-            } else if (commandsArr[i].equals("-t") && i <= commandsArr.length){
-                type = commandsArr[i + 1];
             } else if (commandsArr[i].equals("-a") && i <= commandsArr.length){
                 try {
                     age = Short.valueOf(commandsArr[i + 1]);
                 } catch (NumberFormatException e) {
                     age = 0;
                 }
-            } else if (commandsArr[i].equals("-l")  && i <= commandsArr.length){
-                language= commandsArr[i + 1];
-            } else if (commandsArr[i].equals("-m") && i <= commandsArr.length){
-                methodology = commandsArr[i + 1];
+            } else if ((commandsArr[i].equals("-l") || commandsArr[i].equals("-m"))  && i <= commandsArr.length){
+                skill = commandsArr[i + 1];
             }
         }
-        skill = getSkill(type, language,  methodology);
-
-        return updateEmployee(id, name, type, age, skill);
+        return comControl.updateEmployee(id, name, age, skill);
     }
 
     private String getSkill(String type, String language, String methodology) {
@@ -203,41 +207,4 @@ public class CommandParser {
         }
         return  skill;
     }
-
-    private String openDepartment(String departmentName) {
-        return comControl.openDepartment(departmentName);
-    }
-
-    private String openEmployee(String employeeId) {
-        return "open employee " + employeeId;
-    }
-
-    private String createDepartment(String departmentName) {
-        return comControl.createNewDepartment(departmentName);
-    }
-
-    private  String removeDepartment(String departmentName) {
-        return comControl.removeDepartment(departmentName);
-    }
-
-    private String removeEmployee(String employeeId) {
-        return "rm employee " + employeeId;
-    }
-
-    private String updateEmployee(long id, String employeeName, String employeeType, short employeeAge, String employeeSkill) {
-        return comControl.updateEmployee(id, employeeName, employeeType, employeeAge, employeeSkill);
-    }
-
-    private String createEmployee(String employeeName, String employeeType, short employeeAge, String employeeSkill) {
-        return comControl.addEmployee(employeeName, employeeType, employeeAge, employeeSkill);
-    }
-
-    private String departmentsList() {
-        return comControl.departmentsList();
-    }
-
-    private String help() {
-        return comControl.commandsList();
-    }
-
 }

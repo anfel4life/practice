@@ -3,9 +3,9 @@ package com.company.Services;
 
 public interface RootService {
 
-    void createDepartment(String newDepartmentName);
+    String createDepartment(String newDepartmentName);
 
-    void removeDepartment(String departmentName);
+    String removeDepartment(String departmentName);
 
     String openDepartment(String departmentName);
 
