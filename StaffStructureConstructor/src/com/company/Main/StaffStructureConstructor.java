@@ -1,6 +1,6 @@
-package com.company;
+package com.company.Main;
 
-import com.company.UserInterface.CommandParser;
+import com.company.UserInterface.CommandsParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +12,7 @@ public class StaffStructureConstructor {
         BufferedReader br = null;
         boolean isContinue = true;
 
+        CommandsParser comParser = new CommandsParser();
         System.out.print("Enter command and press <Enter> (\"h\" for help).");
         System.out.println();
 
@@ -27,11 +28,12 @@ public class StaffStructureConstructor {
 
                 if ("exit".equals(input)) {
                     isContinue = false;
-                } else if ("".equals(input)) {
+                } else
+                    if ("".equals(input)) {
                     System.out.println("You didn't enter any commands");
                     System.out.println("-----------");
                 } else {
-                    System.out.println(new CommandParser().usersCommandProcessing(input));
+                    System.out.println(comParser.usersCommandProcessing(input));
                     System.out.println("-----------");
                 }
             }

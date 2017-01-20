@@ -17,6 +17,7 @@ public abstract class StringConstructorUtils {
 
 
     public static String getEmployeesList(Department department) {
+
         StringBuilder list = new StringBuilder();
         HashSet<Employee> employeeSet = department.getEmployeeSet();
         if (employeeSet != null && !employeeSet.isEmpty()) {
@@ -30,7 +31,7 @@ public abstract class StringConstructorUtils {
                     .append("|-")
                     .append(symbolsBetweenColumns(TABLE_HEAD_AGE))
                     .append("|\n");
-//            list.append(tableHeadDivider());
+
             for (Employee employee : employeeSet) {
 
                 list.append("|-")
@@ -50,37 +51,27 @@ public abstract class StringConstructorUtils {
         return list.toString();
     }
 
-//    private static String tableHeadDivider (){
-//        StringBuilder divider = new StringBuilder();
-//        for (int i = 0; i <=  (SYMBOLS_IN_CELL * 4 + 8); i++){
-//            divider.append("+");
-//        }
-//        divider.append("\n");
-//        return divider.toString();
-//    }
-
-
-    private static String symbolsBetweenColumns(String value){
+    private static String symbolsBetweenColumns(String value) {
 
         int symbolsLeft = SYMBOLS_IN_CELL - value.length();
         StringBuilder whiteSpaces = new StringBuilder(value);
-        for (int i = 0; i < symbolsLeft; i++){
+        for (int i = 0; i < symbolsLeft; i++) {
             whiteSpaces.append("-");
         }
         return whiteSpaces.toString();
     }
 
-    private static String whiteSpaces(String value){
+    private static String whiteSpaces(String value) {
 
         int symbolsLeft = SYMBOLS_IN_FILE - value.length();
         StringBuilder whiteSpaces = new StringBuilder(value);
-        for (int i = 0; i < symbolsLeft; i++){
+        for (int i = 0; i < symbolsLeft; i++) {
             whiteSpaces.append(" ");
         }
         return whiteSpaces.toString();
     }
 
-    public static String getEmployeeInfo(Employee employee){
+    public static String getEmployeeInfo(Employee employee) {
         StringBuilder info = new StringBuilder();
         info.append("Employee ").append(employee.getEmployeeName()).append(":\n");
 
@@ -94,11 +85,11 @@ public abstract class StringConstructorUtils {
                 .append(String.valueOf(employee.getEmployeeAge()))
                 .append("\n");
 
-        if (employee.getEmployeeType().equals("Manager")){
+        if (employee.getEmployeeType().equals("Manager")) {
             info.append(whiteSpaces("Methodology")).append(":")
                     .append(employee.getEmployeeSkill())
                     .append("\n");
-        } else if (employee.getEmployeeType().equals("Developer")){
+        } else if (employee.getEmployeeType().equals("Developer")) {
             info.append(whiteSpaces("Language")).append(":")
                     .append(employee.getEmployeeSkill())
                     .append("\n");

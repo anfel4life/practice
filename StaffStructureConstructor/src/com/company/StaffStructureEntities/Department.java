@@ -3,21 +3,16 @@ package com.company.StaffStructureEntities;
 
 import com.company.Services.UniqueIDGenerator;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public class Department extends Node {
+public class Department extends Node implements  Serializable  {
 
     private String departmentName;
-    private String nodeName;
     private long nodeId;
-//    private CommandHolder comHolder;
-    //private String nodeType;
-
     private HashSet<Employee> employeeSet;
 
     public Department() {
-        //setNodeType(DEPARTMENT_NODE_TYPE);
-//        comHolder = new CommandHolder();
         employeeSet = new HashSet<Employee>();
     }
 
@@ -29,11 +24,6 @@ public class Department extends Node {
     @Override
     public long getNodeId() {
         return nodeId;
-    }
-
-    public void setDepartmentName(String departmentName) {
-        setNodeName(departmentName);
-        this.departmentName = departmentName;
     }
 
     public HashSet<Employee> getEmployeeSet() {
@@ -48,31 +38,18 @@ public class Department extends Node {
         employeeSet.remove(employee);
     }
 
-//    public void setEmployeeSet(HashSet<Employee> employeeSet) {
-//        this.employeeSet = employeeSet;
-//    }
-
     public String getDepartmentName() {
         return departmentName;
     }
 
-    @Override
-    public void setNodeType(String nodeType) {
-    }
-
-    @Override
-    public void setNodeName(String nodeName) {
-        this.nodeName = nodeName;
+    public void setDepartmentName(String departmentName) {
+        setNodeId();
+        this.departmentName = departmentName;
     }
 
     @Override
     public String getNodeType() {
         return DEPARTMENT_NODE_TYPE;
-    }
-
-    @Override
-    public String getNodeName() {
-        return nodeName;
     }
 
 }

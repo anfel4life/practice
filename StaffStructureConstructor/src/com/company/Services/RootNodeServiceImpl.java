@@ -1,21 +1,23 @@
 package com.company.Services;
 
 
-import com.company.StaffStructureEntities.FindNodeReferenceUtils;
-import com.company.StaffStructureEntities.RootNode;
 import com.company.StaffStructureEntities.Department;
+import com.company.StaffStructureEntities.RootNode;
 import com.company.StaffStructureEntities.VisitedNodesStack;
 
 import java.util.HashSet;
 
-public class RootServiceImpl implements RootService {
+public class RootNodeServiceImpl implements RootNodeService {
 
-    public RootServiceImpl() {
+    private DepartmentNodeService departmentNodeService;
+
+    public RootNodeServiceImpl() {
+        departmentNodeService = new DepartmentNodeServiceImpl();
     }
 
     @Override
     public String createDepartment(String newDepartmentName) {
-        if (FindNodeReferenceUtils.getDepartmentRef(newDepartmentName) != null){
+        if (FindNodeReferenceUtils.getDepartmentRef(newDepartmentName) != null) {
             return "The department with name " + newDepartmentName + " already exists. \n" + getDepartmentsList();
         }
 
@@ -28,7 +30,7 @@ public class RootServiceImpl implements RootService {
     @Override
     public String removeDepartment(String departmentName) {
         Department departmentForRemoving = FindNodeReferenceUtils.getDepartmentRef(departmentName);
-        if (departmentForRemoving != null){
+        if (departmentForRemoving != null) {
             RootNode.getInstance().removeDepartment(departmentForRemoving);
             return "Department " + departmentName + " was removed.\n" + getDepartmentsList();
         }
@@ -55,11 +57,11 @@ public class RootServiceImpl implements RootService {
     @Override
     public String openDepartment(String departmentName) {
         Department department = FindNodeReferenceUtils.getDepartmentRef(departmentName);
-        System.out.println(">>>> openDepartment " + department);
         if (department == null) {
             return "Department with name " + departmentName + " doesn't exist.\n" + getDepartmentsList();
         }
         VisitedNodesStack.getInstance().setNode(department);
-        return StringConstructorUtils.getEmployeesList(department);
+        return departmentNodeService.getEmployeeList(department);
     }
+
 }

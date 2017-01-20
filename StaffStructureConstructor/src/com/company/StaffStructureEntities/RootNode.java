@@ -1,17 +1,17 @@
 package com.company.StaffStructureEntities;
 
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public class RootNode extends Node {
+public class RootNode extends Node implements Serializable{
 
-//    private static long lastEmployeeId;
     private static RootNode instance;
     private static HashSet<Department> STAFF_STRUCTURE_SET;
 
+
     private RootNode() {
         STAFF_STRUCTURE_SET = new HashSet<Department>();
-//        lastEmployeeId = 0L;
     }
 
     public static RootNode getInstance() {
@@ -21,7 +21,6 @@ public class RootNode extends Node {
         return instance;
     }
 
-
     @Override
     public void setNodeId() {
     }
@@ -30,10 +29,6 @@ public class RootNode extends Node {
     public long getNodeId() {
         return 0L;
     }
-
-//    public long incrementLastEmployeeId() {
-//        return ++lastEmployeeId;
-//    }
 
     public void removeDepartment(Department department) {
         STAFF_STRUCTURE_SET.remove(department);
@@ -48,20 +43,11 @@ public class RootNode extends Node {
     }
 
     @Override
-    public void setNodeType(String nodeType) {
-    }
-
-    @Override
-    public void setNodeName(String nodeName) {
-    }
-
-    @Override
     public String getNodeType() {
         return ROOT_NODE_TYPE;
     }
 
-    @Override
-    public String getNodeName() {
-        return "root";
+    public void loadData(HashSet<Department> staffStructureSet){
+        STAFF_STRUCTURE_SET =  staffStructureSet;
     }
 }

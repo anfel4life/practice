@@ -1,7 +1,7 @@
 package com.company.Services;
 
 
-public interface RootService {
+public interface RootNodeService {
 
     String createDepartment(String newDepartmentName);
 
@@ -11,5 +11,4 @@ public interface RootService {
 
     String getDepartmentsList();
 
-//    String getCommandsList();
 }

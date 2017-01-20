@@ -1,7 +1,9 @@
 package com.company.Services;
 
 
-public interface DepartmentService {
+import com.company.StaffStructureEntities.Department;
+
+public interface DepartmentNodeService {
 
     String openEmployee(long employeeId);
 
@@ -10,5 +12,7 @@ public interface DepartmentService {
     String createEmployee(String employeeName, String employeeType, short employeeAge, String employeeSkill);
 
     String removeEmployee(long employeeId);
+
+    String getEmployeeList(Department department);
 
 }

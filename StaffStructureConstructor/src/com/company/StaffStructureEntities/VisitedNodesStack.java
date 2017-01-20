@@ -20,7 +20,17 @@ public class VisitedNodesStack {
     }
 
     public void setNode(Node node) {
-        NODES_STACK.add(node);
+        if (node.getNodeId() != NODES_STACK.peekLast().getNodeId()) {
+            NODES_STACK.add(node);
+        }
+    }
+
+    public Node getPreviousNode(Node node) {
+        int lastIndex = NODES_STACK.lastIndexOf(node);
+        if (lastIndex > 0) {
+            return NODES_STACK.get(lastIndex - 1);
+        }
+        return null;
     }
 
     public void clear() {
@@ -31,5 +41,4 @@ public class VisitedNodesStack {
     public Node peekLast() {
         return NODES_STACK.peekLast();
     }
-
 }

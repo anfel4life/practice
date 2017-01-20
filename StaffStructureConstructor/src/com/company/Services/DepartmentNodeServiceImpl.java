@@ -4,10 +4,10 @@ package com.company.Services;
 import com.company.StaffStructureEntities.*;
 
 
-public class DepartmentServiceImpl implements DepartmentService {
+public class DepartmentNodeServiceImpl implements DepartmentNodeService {
 
 
-    public DepartmentServiceImpl(){
+    public DepartmentNodeServiceImpl() {
     }
 
     @Override
@@ -24,17 +24,24 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public String updateEmployee(long employeeId, String employeeName, short employeeAge, String employeeSkill) {
 
-        if (employeeId == 0){
+        if (employeeId == 0 || employeeId > UniqueIDGenerator.getInstance().getCurrentEmployeeId()) {
             return "Wrong employee id.";
         }
 
-        long currentDepartmentNodeId = VisitedNodesStack.getInstance().peekLast().getNodeId();
+        Node node = VisitedNodesStack.getInstance().peekLast();
+        long currentDepartmentNodeId;
+
+        if (node.getNodeType().equals(Node.EMPLOYEE_NODE_TYPE)) {
+            currentDepartmentNodeId = VisitedNodesStack.getInstance().getPreviousNode(node).getNodeId();
+        } else {
+            currentDepartmentNodeId = VisitedNodesStack.getInstance().peekLast().getNodeId();
+        }
         Department currentDepartmentRef = FindNodeReferenceUtils.getDepartmentRef(currentDepartmentNodeId);
 
         Employee employee = FindNodeReferenceUtils.getEmployeeRef(employeeId);
         if (employee == null) {
             return "Employee with id \"" + employeeId + "\"doesn't exist.\n" +
-                    StringConstructorUtils.getEmployeesList(currentDepartmentRef);
+                    getEmployeeList(currentDepartmentRef);
         }
 
         employee.setEmployeeName(employeeName);
@@ -42,7 +49,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         employee.setEmployeeSkill(employeeSkill);
 
         return "Info about employee with id \"" + employeeId + "\" was updated \n" +
-                StringConstructorUtils.getEmployeesList(currentDepartmentRef);
+                getEmployeeList(currentDepartmentRef);
     }
 
 
@@ -61,21 +68,21 @@ public class DepartmentServiceImpl implements DepartmentService {
             default:
                 return "Wrong employee type.";
         }
-
         newEmployee.setEmployeeName(employeeName);
         newEmployee.setEmployeeAge(employeeAge);
         newEmployee.setEmployeeSkill(employeeSkill);
-
-        System.out.println(">>>> createEmployee " + VisitedNodesStack.getInstance().peekLast());
         long currentDepartmentNodeId = VisitedNodesStack.getInstance().peekLast().getNodeId();
         Department currentDepartmentRef = FindNodeReferenceUtils.getDepartmentRef(currentDepartmentNodeId);
-
-        System.out.println(">>>> createEmployee " + currentDepartmentRef);
         currentDepartmentRef.addEmployee(newEmployee);
-
         return "Employee with name \"" + employeeName + "\" was added to department " +
                 currentDepartmentRef.getDepartmentName() + "\n" +
-                StringConstructorUtils.getEmployeesList(currentDepartmentRef);
+                getEmployeeList(currentDepartmentRef);
+    }
+
+    @Override
+    public String getEmployeeList(Department department) {
+        VisitedNodesStack.getInstance().setNode(department);
+        return StringConstructorUtils.getEmployeesList(department);
     }
 
     @Override
@@ -87,12 +94,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         Employee employee = FindNodeReferenceUtils.getEmployeeRef(employeeId);
         if (employee == null) {
             return "Employee with id \"" + employeeId + "\"doesn't exist.\n" +
-                    StringConstructorUtils.getEmployeesList(currentDepartmentRef);
+                    getEmployeeList(currentDepartmentRef);
         }
         currentDepartmentRef.getEmployeeSet().remove(employee);
 
         return "Employee with id \"" + employeeId + "\" was removed from " + currentDepartmentRef.getDepartmentName() + "\n" +
-                StringConstructorUtils.getEmployeesList(currentDepartmentRef);
+                getEmployeeList(currentDepartmentRef);
     }
 
 }

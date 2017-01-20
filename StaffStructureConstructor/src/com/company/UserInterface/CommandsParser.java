@@ -1,14 +1,18 @@
 package com.company.UserInterface;
 
 
-public class CommandParser {
-
-    private CommandController comControl;
+public class CommandsParser {
 
     private static final String INCORRECT_INPUT = "Incorrect input! Enter \"help\" for commands list. ";
+    private CommandsController comControl;
 
-    public CommandParser() {
-        comControl = new CommandController();
+    public CommandsParser() {
+        comControl = new CommandsControllerImpl();
+    }
+
+    private static String[] enterUsersCommand(String str) {
+        str = str.trim();
+        return str.split(" ");
     }
 
     public String usersCommandProcessing(String str) {
@@ -30,7 +34,7 @@ public class CommandParser {
                 break;
 
             case "help":
-                resultMessage = comControl.commandsList();
+                resultMessage = comControl.help();
                 break;
 
             case "departments":
@@ -41,17 +45,25 @@ public class CommandParser {
                 resultMessage = (commandsArr.length >= 1) ? updateStaffUnitParse(commandsArr) : INCORRECT_INPUT;
                 break;
 
+            case "exit":
+                resultMessage = (commandsArr.length >= 1) ? updateStaffUnitParse(commandsArr) : INCORRECT_INPUT;
+                break;
+
+            case "save":
+                resultMessage = comControl.saveStaffStructure();
+                break;
+
+            case "load":
+                resultMessage = comControl.loadStaffStructure();
+                break;
+
             default:
                 resultMessage = INCORRECT_INPUT;
         }
         return resultMessage;
     }
 
-    private static String[] enterUsersCommand(String str) {
-        str = str.trim();
-        return str.split(" ");
-    }
-
+    //create -e|-d
     private String createStaffUnit(String[] commandsArr) {
         String resultMessage;
 
@@ -119,74 +131,83 @@ public class CommandParser {
         return resultMessage;
     }
 
-    //create -e -n employee_name -t m|d -a short -m|-l Java|Canban
-    private String createEmployeeParse(String [] commandsArr){
-        long id = 0L;
+    //create -e dn department_name -n employee_name -t m|d  -a age -m\-l
+    //create -e -n employee_name -t m|d -a age -m|-l Canban|Java
+    private String createEmployeeParse(String[] commandsArr) {
         String name = "";
         String type = "";
         short age = 0;
         String language = "";
         String methodology = "";
+        String department = "";
         String skill;
 
-        for (int i = 0; i < commandsArr.length; i++ ){
-            if (commandsArr[i].equals("-e")){
-                try {
-                    id = Long.valueOf(commandsArr[i + 1]);
-                } catch (NumberFormatException e) {
-                    id = 0L;
-                }
-            } else if (commandsArr[i].equals("-n") && i <= commandsArr.length){
+        int arrElemCounter = commandsArr.length - 1;
+
+        for (int i = 0; i < commandsArr.length; i++) {
+
+            if (commandsArr[i].isEmpty()) continue;
+
+            if (commandsArr[i].equals("-dn") && i < arrElemCounter) {
+                department = commandsArr[i + 1];
+            } else if (commandsArr[i].equals("-n") && i < arrElemCounter) {
                 name = commandsArr[i + 1];
-            } else if (commandsArr[i].equals("-t") && i <= commandsArr.length){
+            } else if (commandsArr[i].equals("-t") && i < arrElemCounter) {
                 type = commandsArr[i + 1];
-            } else if (commandsArr[i].equals("-a") && i <= commandsArr.length){
+            } else if (commandsArr[i].equals("-a") && i < arrElemCounter) {
                 try {
                     age = Short.valueOf(commandsArr[i + 1]);
                 } catch (NumberFormatException e) {
                     age = 0;
                 }
-            } else if (commandsArr[i].equals("-l")  && i <= commandsArr.length){
-                language= commandsArr[i + 1];
-            } else if (commandsArr[i].equals("-m") && i <= commandsArr.length){
+            } else if (commandsArr[i].equals("-l") && i < arrElemCounter) {
+                language = commandsArr[i + 1];
+            } else if (commandsArr[i].equals("-m") && i < arrElemCounter) {
                 methodology = commandsArr[i + 1];
             }
         }
 
-        if (type.equals("d") && !methodology.isEmpty()){
+        if (type.equals("d") && !methodology.isEmpty()) {
             return INCORRECT_INPUT;
-        } else if (type.equals("m") && !language.isEmpty()){
+        } else if (type.equals("m") && !language.isEmpty()) {
             return INCORRECT_INPUT;
         }
 
-        skill = getSkill(type, language,  methodology);
-//        System.out.println("name: " + name + "; type: " + type + "; age:" + age + "; skill: " + skill);
-        return comControl.addEmployee(name, type, age, skill);
+        skill = getSkill(type, language, methodology);
+
+        if (!department.isEmpty()) {
+            return comControl.createEmployee(department, name, type, age, skill);
+        }
+        return comControl.createEmployee(name, type, age, skill);
     }
 
-    //update -e employee_id -n employee_name -a short -m|-l Java|Canban
-    private String updateEmployeeParse(String [] commandsArr){
+    //update -e employee_id -n employee_name -a short -m|-l Canban|Java
+    private String updateEmployeeParse(String[] commandsArr) {
         long id = 0L;
         String name = "";
         short age = 0;
         String skill = "";
+        int arrElemCounter = commandsArr.length - 1;
 
-        for (int i = 0; i < commandsArr.length; i++ ){
-            if (commandsArr[i].equals("-e") && i <= commandsArr.length) {
+        for (int i = 0; i < commandsArr.length; i++) {
+
+            if (commandsArr[i].isEmpty()) continue;
+
+            if (commandsArr[i].equals("-e") && i < arrElemCounter) {
                 try {
                     id = Long.valueOf(commandsArr[i + 1]);
                 } catch (NumberFormatException e) {
                     id = 0L;
                 }
-            } else if (commandsArr[i].equals("-n") && i <= commandsArr.length){
+            } else if (commandsArr[i].equals("-n") && i < arrElemCounter) {
                 name = commandsArr[i + 1];
-            } else if (commandsArr[i].equals("-a") && i <= commandsArr.length){
+            } else if (commandsArr[i].equals("-a") && i < arrElemCounter) {
                 try {
                     age = Short.valueOf(commandsArr[i + 1]);
                 } catch (NumberFormatException e) {
                     age = 0;
                 }
-            } else if ((commandsArr[i].equals("-l") || commandsArr[i].equals("-m"))  && i <= commandsArr.length){
+            } else if ((commandsArr[i].equals("-l") || commandsArr[i].equals("-m")) && i < arrElemCounter) {
                 skill = commandsArr[i + 1];
             }
         }
@@ -195,7 +216,7 @@ public class CommandParser {
 
     private String getSkill(String type, String language, String methodology) {
         String skill;
-        switch (type){
+        switch (type) {
             case "d":
                 skill = language;
                 break;
@@ -205,6 +226,6 @@ public class CommandParser {
             default:
                 skill = "";
         }
-        return  skill;
+        return skill;
     }
 }

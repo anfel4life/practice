@@ -3,17 +3,16 @@ package com.company.StaffStructureEntities;
 
 import com.company.Services.UniqueIDGenerator;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Employee extends Node {
 
-    protected long employeeId;
-    protected short employeeAge;
-//    protected String employeeType;
-    protected String employeeName;
-    protected String nodeName;
-    protected long nodeId;
-    protected String employeeSkill;
+public class Employee extends Node implements Serializable {
+
+    protected long employeeId = 0L;
+    protected short employeeAge = 0;
+    protected String employeeName = "";
+    protected long nodeId = 0L;
+    protected String employeeSkill = "";
 
     public Employee() {
         setEmployeeId();
@@ -23,17 +22,13 @@ public class Employee extends Node {
         return employeeId;
     }
 
+    public void setEmployeeId(long employeeId) {
+        this.employeeId = employeeId;
+    }
 
     protected void setEmployeeId() {
         employeeId = UniqueIDGenerator.getInstance().getNewEmployeeId();
-        setNodeName(String.valueOf(employeeId));
     }
-
-    public void setEmployeeId(long employeeId) {
-        this.employeeId = employeeId;
-        setNodeName(String.valueOf(employeeId));
-    }
-
 
     @Override
     public void setNodeId() {
@@ -45,19 +40,23 @@ public class Employee extends Node {
         return nodeId;
     }
 
+    @Override
+    public String getNodeType() {
+        return EMPLOYEE_NODE_TYPE;
+    }
+
     public String getEmployeeType() {
         return null;
     }
 
-//    public void setEmployeeType(String employeeType) {
-//    }
-
-    public void setEmployeeSkill(String employeeSkill){
-       this.employeeSkill = employeeSkill;
+    public String getEmployeeSkill() {
+        return employeeSkill;
     }
 
-    public String getEmployeeSkill(){
-        return employeeSkill;
+    public void setEmployeeSkill(String employeeSkill) {
+        if (!employeeSkill.isEmpty()) {
+            this.employeeSkill = employeeSkill;
+        }
     }
 
     public short getEmployeeAge() {
@@ -65,7 +64,9 @@ public class Employee extends Node {
     }
 
     public void setEmployeeAge(short employeeAge) {
-        this.employeeAge = employeeAge;
+        if (employeeAge != 0) {
+            this.employeeAge = employeeAge;
+        }
     }
 
     public String getEmployeeName() {
@@ -73,30 +74,10 @@ public class Employee extends Node {
     }
 
     public void setEmployeeName(String employeeName) {
-//        setEmployeeId();
-        this.employeeName = employeeName;
+        if (!employeeName.isEmpty()) {
+            this.employeeName = employeeName;
+        }
     }
 
-    @Override
-    public void setNodeType(String nodeType) {
-    }
 
-    @Override
-    public void setNodeName(String nodeName) {
-        this.nodeName = nodeName;
-    }
-
-    @Override
-    public String getNodeType() {
-        return EMPLOYEE_NODE_TYPE;
-    }
-
-    @Override
-    public String getNodeName() {
-        return nodeName;
-    }
-
-    public ArrayList<String> getNodeCommands() {
-        return super.getNodeCommands(getNodeType());
-    }
 }
