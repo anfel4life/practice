@@ -1,36 +1,49 @@
 package com.company.Services;
 
-public class UniqueIDGenerator {
+import java.io.Serializable;
 
-    private static UniqueIDGenerator instance;
+public class UniqueIDGenerator implements Serializable {
 
-    private static long uniqueNodeId;
-    private static long uniqueEmployeeId;
+    private static UniqueIDGenerator INSTANCE;
+
+    private static long UNIQUE_NODE_ID;
+    private static long UNIQUE_EMPLOYEE_ID;
 
     private UniqueIDGenerator() {
-        uniqueNodeId = 0L;
-        uniqueEmployeeId = 0L;
+        UNIQUE_NODE_ID = 0L;
+        UNIQUE_EMPLOYEE_ID = 0L;
     }
 
     public static UniqueIDGenerator getInstance() {
-        if (instance == null) {
-            instance = new UniqueIDGenerator();
+        if (INSTANCE == null) {
+            INSTANCE = new UniqueIDGenerator();
         }
-        return instance;
+        return INSTANCE;
     }
 
     public long getNewNodeId() {
-        uniqueNodeId++;
-        return uniqueNodeId;
+        UNIQUE_NODE_ID++;
+        return UNIQUE_NODE_ID;
     }
 
     public long getNewEmployeeId() {
-        uniqueEmployeeId++;
-        return uniqueEmployeeId;
+        UNIQUE_EMPLOYEE_ID++;
+        return UNIQUE_EMPLOYEE_ID;
     }
 
     public long getCurrentEmployeeId() {
-        return uniqueEmployeeId;
+        return UNIQUE_EMPLOYEE_ID;
     }
 
+    public long getCurrentNodeId() {
+        return UNIQUE_NODE_ID;
+    }
+
+    public void loadUniqueEmployeeId(long uniqueEmployeeId){
+        UNIQUE_EMPLOYEE_ID = uniqueEmployeeId;
+    }
+
+    public void loadNodeEmployeeId(long uniqueNodeId){
+        UNIQUE_NODE_ID =  uniqueNodeId;
+    }
 }

@@ -1,12 +1,6 @@
 package com.company.UserInterface;
 
 
-import com.company.Services.DataKeeperUtils;
-import com.company.StaffStructureEntities.Department;
-import com.company.StaffStructureEntities.RootNode;
-
-import java.util.HashSet;
-
 public interface CommandsController {
 
     String createNewDepartment(String departmentName);
@@ -22,7 +16,7 @@ public interface CommandsController {
     String createEmployee(String department, String employeeName, String employeeType, short employeeAge,
                           String employeeSkill);
 
-    String updateEmployee(long id, String employeeName, short employeeAge, String employeeSkill);
+    String updateEmployee(long id, String employeeName, short employeeAge, String skillKey, String employeeSkill);
 
     String removeEmployee(String employeeIdStr);
 

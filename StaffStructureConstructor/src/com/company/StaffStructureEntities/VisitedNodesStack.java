@@ -4,19 +4,19 @@ package com.company.StaffStructureEntities;
 import java.util.LinkedList;
 
 public class VisitedNodesStack {
-    private static VisitedNodesStack instance;
+    private static VisitedNodesStack INSTANCE;
     private static LinkedList<Node> NODES_STACK;
 
     private VisitedNodesStack() {
         NODES_STACK = new LinkedList<Node>();
-        NODES_STACK.add(RootNode.getInstance());
+        NODES_STACK.add(RootNode.getInstace());
     }
 
     public static VisitedNodesStack getInstance() {
-        if (instance == null) {
-            instance = new VisitedNodesStack();
+        if (INSTANCE == null) {
+            INSTANCE = new VisitedNodesStack();
         }
-        return instance;
+        return INSTANCE;
     }
 
     public void setNode(Node node) {
@@ -35,7 +35,7 @@ public class VisitedNodesStack {
 
     public void clear() {
         NODES_STACK.clear();
-        NODES_STACK.add(RootNode.getInstance());
+        NODES_STACK.add(RootNode.getInstace());
     }
 
     public Node peekLast() {

@@ -3,9 +3,7 @@ package com.company.Services;
 
 import com.company.StaffStructureEntities.*;
 
-
 public class DepartmentNodeServiceImpl implements DepartmentNodeService {
-
 
     public DepartmentNodeServiceImpl() {
     }
@@ -22,11 +20,8 @@ public class DepartmentNodeServiceImpl implements DepartmentNodeService {
     }
 
     @Override
-    public String updateEmployee(long employeeId, String employeeName, short employeeAge, String employeeSkill) {
-
-        if (employeeId == 0 || employeeId > UniqueIDGenerator.getInstance().getCurrentEmployeeId()) {
-            return "Wrong employee id.";
-        }
+    public String updateEmployee(long employeeId, String employeeName, short employeeAge, String skillKey,
+                                 String employeeSkill) {
 
         Node node = VisitedNodesStack.getInstance().peekLast();
         long currentDepartmentNodeId;
@@ -39,9 +34,17 @@ public class DepartmentNodeServiceImpl implements DepartmentNodeService {
         Department currentDepartmentRef = FindNodeReferenceUtils.getDepartmentRef(currentDepartmentNodeId);
 
         Employee employee = FindNodeReferenceUtils.getEmployeeRef(employeeId);
+
         if (employee == null) {
             return "Employee with id \"" + employeeId + "\"doesn't exist.\n" +
                     getEmployeeList(currentDepartmentRef);
+        }
+
+
+        if (employee.getEmployeeType().equals("Manager") && skillKey.equals("-l")){
+            return "The manager doesn\'t have language field";
+        } else if (employee.getEmployeeType().equals("Developer") && skillKey.equals("-m")){
+            return "The developer doesn\'t have methodology field";
         }
 
         employee.setEmployeeName(employeeName);

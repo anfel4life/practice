@@ -2,18 +2,18 @@ package com.company.StaffStructureEntities;
 
 
 import com.company.Services.UniqueIDGenerator;
-
-import java.io.Serializable;
 import java.util.HashSet;
 
-public class Department extends Node implements  Serializable  {
+public class Department extends Node   {
 
     private String departmentName;
     private long nodeId;
     private HashSet<Employee> employeeSet;
+    private String nodeType;
 
     public Department() {
         employeeSet = new HashSet<Employee>();
+        nodeType = DEPARTMENT_NODE_TYPE;
     }
 
     @Override
@@ -24,6 +24,11 @@ public class Department extends Node implements  Serializable  {
     @Override
     public long getNodeId() {
         return nodeId;
+    }
+
+    @Override
+    public String getNodeType() {
+        return nodeType;
     }
 
     public HashSet<Employee> getEmployeeSet() {
@@ -46,10 +51,4 @@ public class Department extends Node implements  Serializable  {
         setNodeId();
         this.departmentName = departmentName;
     }
-
-    @Override
-    public String getNodeType() {
-        return DEPARTMENT_NODE_TYPE;
-    }
-
 }

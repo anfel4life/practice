@@ -1,7 +1,6 @@
 package com.company.UserInterface;
 
 
-import com.company.Services.DataKeeperUtils;
 import com.company.Services.*;
 import com.company.StaffStructureEntities.Department;
 import com.company.StaffStructureEntities.RootNode;
@@ -22,14 +21,6 @@ public class CommandsControllerImpl implements CommandsController {
     public CommandsControllerImpl() {
         rootNodeService = new RootNodeServiceImpl();
         departmentNodeService = new DepartmentNodeServiceImpl();
-    }
-
-    private static boolean checkAge(short age) {
-        return (0 <= age || age > 200);
-    }
-
-    private static boolean checkId(long id) {
-        return (1 > id || id > UniqueIDGenerator.getInstance().getCurrentEmployeeId());
     }
 
     @Override
@@ -76,7 +67,7 @@ public class CommandsControllerImpl implements CommandsController {
                 CommandsHolder.CREATE_EMPLOYEE_COM)) {
             return COMMAND_IS_NOT_ALLOWED_MSG;
         }
-        if (!checkAge(employeeAge)) {
+        if (isAgeNotCorrect(employeeAge)) {
             return WRONG_AGE_MSG;
         }
         return departmentNodeService.createEmployee(employeeName, employeeType, employeeAge, employeeSkill);
@@ -91,7 +82,7 @@ public class CommandsControllerImpl implements CommandsController {
             return COMMAND_IS_NOT_ALLOWED_MSG;
         }
 
-        if (!checkAge(employeeAge)) {
+        if (isAgeNotCorrect(employeeAge)) {
             return WRONG_AGE_MSG;
         }
 
@@ -100,17 +91,17 @@ public class CommandsControllerImpl implements CommandsController {
     }
 
     @Override
-    public String updateEmployee(long id, String employeeName, short employeeAge, String employeeSkill) {
-        if (!checkAge(employeeAge)) {
+    public String updateEmployee(long id, String employeeName, short employeeAge, String skillKey, String employeeSkill) {
+        if (isAgeNotCorrect(employeeAge)) {
             return WRONG_AGE_MSG;
-        } else if (checkId(id)) {
+        } else if (isIdNotCorrect(id)) {
             return WRONG_ID_MSG;
         }
         if (!CommandsHolder.isCommandAllowed(VisitedNodesStack.getInstance().peekLast().getNodeType(),
                 CommandsHolder.UPDATE_EMPLOYEE_COM)) {
             return COMMAND_IS_NOT_ALLOWED_MSG;
         }
-        return departmentNodeService.updateEmployee(id, employeeName, employeeAge, employeeSkill);
+        return departmentNodeService.updateEmployee(id, employeeName, employeeAge, skillKey, employeeSkill);
     }
 
     @Override
@@ -158,27 +149,50 @@ public class CommandsControllerImpl implements CommandsController {
         return strings.toString();
     }
 
-    public String saveStaffStructure(){
+    @Override
+    public String saveStaffStructure() {
         if (!CommandsHolder.isCommandAllowed(VisitedNodesStack.getInstance().peekLast().getNodeType(),
                 CommandsHolder.SAVE_COM)) {
             return COMMAND_IS_NOT_ALLOWED_MSG;
         }
-        DataKeeperUtils.write(RootNode.getInstance().getStaffStructureSet());
-        return "Staff structure saved";
+        DataKeeperUtils.writeStaffStructure(RootNode.getInstace().getStaffStructureSet());
+        DataKeeperUtils.writeEmployeeId(UniqueIDGenerator.getInstance().getCurrentEmployeeId());
+        DataKeeperUtils.writeNodeId(UniqueIDGenerator.getInstance().getCurrentNodeId());
+        return "Staff structure was saved";
     }
 
-    public String loadStaffStructure(){
+    @Override
+    public String loadStaffStructure() {
         if (!CommandsHolder.isCommandAllowed(VisitedNodesStack.getInstance().peekLast().getNodeType(),
                 CommandsHolder.LOAD_COM)) {
             return COMMAND_IS_NOT_ALLOWED_MSG;
         }
-        Object object = DataKeeperUtils.read();
-        if (object == null){
+
+        Object staffStructureObject = DataKeeperUtils.readStaffStructure();
+        Object employeeIdObject = DataKeeperUtils.readEmployeeId();
+        Object nodeIdObject = DataKeeperUtils.readNodeId();
+
+        if (staffStructureObject == null && employeeIdObject == null && nodeIdObject == null) {
             return "The loading was unsuccessful.";
         }
-        HashSet<Department> staffStructureSet = (HashSet<Department>) object;
-        RootNode.getInstance().loadData(staffStructureSet);
-        VisitedNodesStack.getInstance().clear();
+
+        try {
+            HashSet<Department> staffStructureSet = (HashSet<Department>) staffStructureObject;
+            RootNode.getInstace().loadData(staffStructureSet);
+            UniqueIDGenerator.getInstance().loadNodeEmployeeId((long) nodeIdObject);
+            UniqueIDGenerator.getInstance().loadUniqueEmployeeId((long) employeeIdObject);
+            VisitedNodesStack.getInstance().clear();
+        } catch (ClassCastException e) {
+            return "The loading was unsuccessful.";
+        }
         return "Staff structure was loaded";
+    }
+
+    private static boolean isAgeNotCorrect(short age) {
+        return (0 > age || age > 200);
+    }
+
+    private static boolean isIdNotCorrect(long id) {
+        return (1 > id || id > UniqueIDGenerator.getInstance().getCurrentEmployeeId());
     }
 }

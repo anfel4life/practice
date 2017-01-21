@@ -13,7 +13,7 @@ public class StaffStructureConstructor {
         boolean isContinue = true;
 
         CommandsParser comParser = new CommandsParser();
-        System.out.print("Enter command and press <Enter> (\"h\" for help).");
+        System.out.print("Enter command and press <Enter> (\"help\" for help).");
         System.out.println();
 
         try {
@@ -28,13 +28,9 @@ public class StaffStructureConstructor {
 
                 if ("exit".equals(input)) {
                     isContinue = false;
-                } else
-                    if ("".equals(input)) {
-                    System.out.println("You didn't enter any commands");
-                    System.out.println("-----------");
                 } else {
                     System.out.println(comParser.usersCommandProcessing(input));
-                    System.out.println("-----------");
+                    System.out.println("-----------------");
                 }
             }
 

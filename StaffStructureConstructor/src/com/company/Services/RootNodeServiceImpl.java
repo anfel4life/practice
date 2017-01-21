@@ -4,7 +4,6 @@ package com.company.Services;
 import com.company.StaffStructureEntities.Department;
 import com.company.StaffStructureEntities.RootNode;
 import com.company.StaffStructureEntities.VisitedNodesStack;
-
 import java.util.HashSet;
 
 public class RootNodeServiceImpl implements RootNodeService {
@@ -23,7 +22,7 @@ public class RootNodeServiceImpl implements RootNodeService {
 
         Department department = new Department();
         department.setDepartmentName(newDepartmentName);
-        RootNode.getInstance().addDepartment(department);
+        RootNode.getInstace().addDepartment(department);
         return "Department " + newDepartmentName + " was created. \n" + getDepartmentsList();
     }
 
@@ -31,7 +30,7 @@ public class RootNodeServiceImpl implements RootNodeService {
     public String removeDepartment(String departmentName) {
         Department departmentForRemoving = FindNodeReferenceUtils.getDepartmentRef(departmentName);
         if (departmentForRemoving != null) {
-            RootNode.getInstance().removeDepartment(departmentForRemoving);
+            RootNode.getInstace().removeDepartment(departmentForRemoving);
             return "Department " + departmentName + " was removed.\n" + getDepartmentsList();
         }
         return "Department " + departmentName + " doesn't exist." + getDepartmentsList();
@@ -40,7 +39,7 @@ public class RootNodeServiceImpl implements RootNodeService {
     @Override
     public String getDepartmentsList() {
         StringBuilder departmentsCount = new StringBuilder();
-        HashSet<Department> staffStructureSet = RootNode.getInstance().getStaffStructureSet();
+        HashSet<Department> staffStructureSet = RootNode.getInstace().getStaffStructureSet();
         if (staffStructureSet != null && !staffStructureSet.isEmpty()) {
             departmentsCount.append("Departments list: \n");
             for (Department department : staffStructureSet) {

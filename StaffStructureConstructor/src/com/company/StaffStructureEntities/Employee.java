@@ -1,21 +1,19 @@
 package com.company.StaffStructureEntities;
 
-
 import com.company.Services.UniqueIDGenerator;
 
-import java.io.Serializable;
+public class Employee extends Node {
 
-
-public class Employee extends Node implements Serializable {
-
-    protected long employeeId = 0L;
-    protected short employeeAge = 0;
-    protected String employeeName = "";
-    protected long nodeId = 0L;
-    protected String employeeSkill = "";
+    private long employeeId = 0L;
+    private short employeeAge = 0;
+    private String employeeName = "";
+    private long nodeId = 0L;
+    private String employeeSkill = "";
+    private String nodeType;
 
     public Employee() {
         setEmployeeId();
+        this.nodeType = EMPLOYEE_NODE_TYPE;
     }
 
     public long getEmployeeId() {
@@ -26,7 +24,7 @@ public class Employee extends Node implements Serializable {
         this.employeeId = employeeId;
     }
 
-    protected void setEmployeeId() {
+    private void setEmployeeId() {
         employeeId = UniqueIDGenerator.getInstance().getNewEmployeeId();
     }
 
@@ -42,7 +40,7 @@ public class Employee extends Node implements Serializable {
 
     @Override
     public String getNodeType() {
-        return EMPLOYEE_NODE_TYPE;
+        return nodeType;
     }
 
     public String getEmployeeType() {
@@ -78,6 +76,4 @@ public class Employee extends Node implements Serializable {
             this.employeeName = employeeName;
         }
     }
-
-
 }

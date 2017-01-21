@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CommandsHolder  {
+public class CommandsHolder implements Serializable {
 
     public static final String EXIT_COM = "type \"exit\" to quit from the application";
 
@@ -65,23 +65,22 @@ public class CommandsHolder  {
         departmentCommands.add(CREATE_EMPLOYEE_COM);
         departmentCommands.add(REMOVE_EMPLOYEE_COM);
         departmentCommands.add(DEPARTMENT_COM);
-        rootCommands.add(LOAD_COM);
-        rootCommands.add(SAVE_COM);
+        departmentCommands.add(LOAD_COM);
+        departmentCommands.add(SAVE_COM);
         departmentCommands.add(HELP_COM);
         departmentCommands.add(EXIT_COM);
 
         employeeCommands.add(UPDATE_EMPLOYEE_COM);
         employeeCommands.add(DEPARTMENT_COM);
         employeeCommands.add(OPEN_DEPARTMENT_COM);
-        rootCommands.add(LOAD_COM);
-        rootCommands.add(SAVE_COM);
+        employeeCommands.add(LOAD_COM);
+        employeeCommands.add(SAVE_COM);
         employeeCommands.add(HELP_COM);
         employeeCommands.add(EXIT_COM);
 
         commandPermissionsMap.put(Node.ROOT_NODE_TYPE, rootCommands);
         commandPermissionsMap.put(Node.DEPARTMENT_NODE_TYPE, departmentCommands);
         commandPermissionsMap.put(Node.EMPLOYEE_NODE_TYPE, employeeCommands);
-
     }
 
     public static boolean isCommandAllowed(String nodeType, String command) {

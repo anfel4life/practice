@@ -3,7 +3,6 @@ package com.company.Services;
 
 import com.company.StaffStructureEntities.Department;
 import com.company.StaffStructureEntities.Employee;
-
 import java.util.HashSet;
 
 public abstract class StringConstructorUtils {

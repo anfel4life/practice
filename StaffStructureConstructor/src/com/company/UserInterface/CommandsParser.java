@@ -21,6 +21,10 @@ public class CommandsParser {
         String[] commandsArr = enterUsersCommand(str);
 
         switch (commandsArr[0].toLowerCase()) {
+
+            case "":
+                resultMessage = "You didn't enter any commands";
+                break;
             case "create":
                 resultMessage = (commandsArr.length >= 1) ? createStaffUnit(commandsArr) : INCORRECT_INPUT;
                 break;
@@ -168,9 +172,9 @@ public class CommandsParser {
         }
 
         if (type.equals("d") && !methodology.isEmpty()) {
-            return INCORRECT_INPUT;
+            return "The developer doesn\'t have methodology field";
         } else if (type.equals("m") && !language.isEmpty()) {
-            return INCORRECT_INPUT;
+            return "The manager doesn\'t have methodology Language";
         }
 
         skill = getSkill(type, language, methodology);
@@ -181,10 +185,26 @@ public class CommandsParser {
         return comControl.createEmployee(name, type, age, skill);
     }
 
+    private String getSkill(String type, String language, String methodology) {
+        String skill;
+        switch (type) {
+            case "d":
+                skill = language;
+                break;
+            case "m":
+                skill = methodology;
+                break;
+            default:
+                skill = "";
+        }
+        return skill;
+    }
+
     //update -e employee_id -n employee_name -a short -m|-l Canban|Java
     private String updateEmployeeParse(String[] commandsArr) {
         long id = 0L;
         String name = "";
+        String skillKey = "";
         short age = 0;
         String skill = "";
         int arrElemCounter = commandsArr.length - 1;
@@ -208,24 +228,12 @@ public class CommandsParser {
                     age = 0;
                 }
             } else if ((commandsArr[i].equals("-l") || commandsArr[i].equals("-m")) && i < arrElemCounter) {
+                skillKey = commandsArr[i];
                 skill = commandsArr[i + 1];
             }
         }
-        return comControl.updateEmployee(id, name, age, skill);
+
+        return comControl.updateEmployee(id, name, age, skillKey, skill);
     }
 
-    private String getSkill(String type, String language, String methodology) {
-        String skill;
-        switch (type) {
-            case "d":
-                skill = language;
-                break;
-            case "m":
-                skill = methodology;
-                break;
-            default:
-                skill = "";
-        }
-        return skill;
-    }
 }
