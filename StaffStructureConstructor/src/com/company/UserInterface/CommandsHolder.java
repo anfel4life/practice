@@ -24,7 +24,10 @@ public class CommandsHolder implements Serializable {
 
     public static final String CREATE_EMPLOYEE_COM = "type \"create -e -n employee_name -t (type \"m\" for manager, " +
             "\"d\" for developer)\" \n -a age -l language (developers only) -m methodology (managers only) \" to create new employee";
-
+    
+    public static final String CREATE_EMPLOYEE_2_COM = "type "create -e -dn department_name -n employee_name -t (type "m" for manager, "d" for developer)
+ -a age -l language (developers only) -m methodology (managers only)" to create new employee in specific department" 
+    
     public static final String CREATE_DEPARTMENT_COM = "type \"create -d department_name\" to create new department";
 
     public static final String CREATE_EMPLOYEE_IN_DEPARTMENT_COM = "type \"create -e -dn department_name " +
@@ -63,6 +66,7 @@ public class CommandsHolder implements Serializable {
         departmentCommands.add(OPEN_EMPLOYEE_COM);
         departmentCommands.add(UPDATE_EMPLOYEE_COM);
         departmentCommands.add(CREATE_EMPLOYEE_COM);
+        departmentCommands.add(CREATE_EMPLOYEE_2_COM);
         departmentCommands.add(REMOVE_EMPLOYEE_COM);
         departmentCommands.add(DEPARTMENT_COM);
         departmentCommands.add(LOAD_COM);
